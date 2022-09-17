@@ -132,7 +132,7 @@ func TestGRPCServerTrace(t *testing.T) {
 		)
 
 		server := grpctransport.NewServer(
-			endpoint.Nop,
+			endpoint.Nop[any, any],
 			func(context.Context, interface{}) (interface{}, error) {
 				return nil, nil
 			},

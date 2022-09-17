@@ -84,8 +84,8 @@ func ClientFinalizer(f ...ClientFinalizerFunc) ClientOption {
 
 // Endpoint returns a usable endpoint that will invoke the gRPC specified by the
 // client.
-func (c Client) Endpoint() endpoint.Endpoint {
-	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+func (c Client) Endpoint() endpoint.Endpoint[any, any] {
+	return func(ctx context.Context, request any) (response any, err error) {
 		ctx, cancel := context.WithCancel(ctx)
 		defer cancel()
 

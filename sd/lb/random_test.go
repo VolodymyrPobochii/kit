@@ -12,7 +12,7 @@ import (
 func TestRandom(t *testing.T) {
 	var (
 		n          = 7
-		endpoints  = make([]endpoint.Endpoint, n)
+		endpoints  = make([]endpoint.Endpoint[any, any], n)
 		counts     = make([]int, n)
 		seed       = int64(12345)
 		iterations = 1000000

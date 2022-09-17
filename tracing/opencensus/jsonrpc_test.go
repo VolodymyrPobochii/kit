@@ -126,7 +126,7 @@ func TestJSONRPCServerTrace(t *testing.T) {
 		handler := jsonrpc.NewServer(
 			jsonrpc.EndpointCodecMap{
 				endpointName: jsonrpc.EndpointCodec{
-					Endpoint: endpoint.Nop,
+					Endpoint: endpoint.Nop[any, any],
 					Decode:   func(context.Context, json.RawMessage) (interface{}, error) { return nil, nil },
 					Encode:   func(context.Context, interface{}) (json.RawMessage, error) { return nil, tr.err },
 				},

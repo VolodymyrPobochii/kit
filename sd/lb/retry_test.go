@@ -25,10 +25,10 @@ func TestRetryMaxTotalFail(t *testing.T) {
 
 func TestRetryMaxPartialFail(t *testing.T) {
 	var (
-		endpoints = []endpoint.Endpoint{
-			func(context.Context, interface{}) (interface{}, error) { return nil, errors.New("error one") },
-			func(context.Context, interface{}) (interface{}, error) { return nil, errors.New("error two") },
-			func(context.Context, interface{}) (interface{}, error) { return struct{}{}, nil /* OK */ },
+		endpoints = []endpoint.Endpoint[any, any]{
+			func(context.Context, any) (any, error) { return nil, errors.New("error one") },
+			func(context.Context, any) (any, error) { return nil, errors.New("error two") },
+			func(context.Context, any) (any, error) { return struct{}{}, nil /* OK */ },
 		}
 		endpointer = sd.FixedEndpointer{
 			0: endpoints[0],
@@ -46,10 +46,10 @@ func TestRetryMaxPartialFail(t *testing.T) {
 
 func TestRetryMaxSuccess(t *testing.T) {
 	var (
-		endpoints = []endpoint.Endpoint{
-			func(context.Context, interface{}) (interface{}, error) { return nil, errors.New("error one") },
-			func(context.Context, interface{}) (interface{}, error) { return nil, errors.New("error two") },
-			func(context.Context, interface{}) (interface{}, error) { return struct{}{}, nil /* OK */ },
+		endpoints = []endpoint.Endpoint[any, any]{
+			func(context.Context, any) (any, error) { return nil, errors.New("error one") },
+			func(context.Context, any) (any, error) { return nil, errors.New("error two") },
+			func(context.Context, any) (any, error) { return struct{}{}, nil /* OK */ },
 		}
 		endpointer = sd.FixedEndpointer{
 			0: endpoints[0],
@@ -112,7 +112,7 @@ func TestErrorPassedUnchangedToCallback(t *testing.T) {
 			}
 			return false, nil
 		}
-		endpoint = func(ctx context.Context, request interface{}) (interface{}, error) {
+		endpoint = func(ctx context.Context, request any) (any, error) {
 			return nil, myErr
 		}
 		endpoints = sd.FixedEndpointer{endpoint} // no endpoints
@@ -129,7 +129,7 @@ func TestErrorPassedUnchangedToCallback(t *testing.T) {
 func TestHandleNilCallback(t *testing.T) {
 	var (
 		endpointer = sd.FixedEndpointer{
-			func(context.Context, interface{}) (interface{}, error) { return struct{}{}, nil /* OK */ },
+			func(context.Context, any) (any, error) { return struct{}{}, nil /* OK */ },
 		}
 		rr  = lb.NewRoundRobin(endpointer)
 		ctx = context.Background()

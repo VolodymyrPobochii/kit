@@ -13,7 +13,7 @@ import (
 
 // Subscriber wraps an endpoint and provides a handler for AMQP Delivery messages.
 type Subscriber struct {
-	e                 endpoint.Endpoint
+	e                 endpoint.Endpoint[any, any]
 	dec               DecodeRequestFunc
 	enc               EncodeResponseFunc
 	before            []RequestFunc
@@ -26,7 +26,7 @@ type Subscriber struct {
 // NewSubscriber constructs a new subscriber, which provides a handler
 // for AMQP Delivery messages.
 func NewSubscriber(
-	e endpoint.Endpoint,
+	e endpoint.Endpoint[any, any],
 	dec DecodeRequestFunc,
 	enc EncodeResponseFunc,
 	options ...SubscriberOption,

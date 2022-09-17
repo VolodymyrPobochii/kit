@@ -13,7 +13,7 @@ import (
 
 // Subscriber wraps an endpoint and provides nats.MsgHandler.
 type Subscriber struct {
-	e            endpoint.Endpoint
+	e            endpoint.Endpoint[any, any]
 	dec          DecodeRequestFunc
 	enc          EncodeResponseFunc
 	before       []RequestFunc
@@ -26,7 +26,7 @@ type Subscriber struct {
 // NewSubscriber constructs a new subscriber, which provides nats.MsgHandler and wraps
 // the provided endpoint.
 func NewSubscriber(
-	e endpoint.Endpoint,
+	e endpoint.Endpoint[any, any],
 	dec DecodeRequestFunc,
 	enc EncodeResponseFunc,
 	options ...SubscriberOption,

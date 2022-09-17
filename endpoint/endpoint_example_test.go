@@ -3,7 +3,6 @@ package endpoint_test
 import (
 	"context"
 	"fmt"
-
 	"github.com/go-kit/kit/endpoint"
 )
 
@@ -34,8 +33,8 @@ var (
 )
 
 func annotate(s string) endpoint.Middleware {
-	return func(next endpoint.Endpoint) endpoint.Endpoint {
-		return func(ctx context.Context, request interface{}) (interface{}, error) {
+	return func(next endpoint.Endpoint[any, any]) endpoint.Endpoint[any, any] {
+		return func(ctx context.Context, request any) (any, error) {
 			fmt.Println(s, "pre")
 			defer fmt.Println(s, "post")
 			return next(ctx, request)
@@ -43,7 +42,7 @@ func annotate(s string) endpoint.Middleware {
 	}
 }
 
-func myEndpoint(context.Context, interface{}) (interface{}, error) {
+func myEndpoint(context.Context, any) (any, error) {
 	fmt.Println("my endpoint!")
-	return struct{}{}, nil
+	return "", nil
 }

@@ -15,10 +15,10 @@ import (
 func TestRoundRobin(t *testing.T) {
 	var (
 		counts    = []int{0, 0, 0}
-		endpoints = []endpoint.Endpoint{
-			func(context.Context, interface{}) (interface{}, error) { counts[0]++; return struct{}{}, nil },
-			func(context.Context, interface{}) (interface{}, error) { counts[1]++; return struct{}{}, nil },
-			func(context.Context, interface{}) (interface{}, error) { counts[2]++; return struct{}{}, nil },
+		endpoints = []endpoint.Endpoint[any, any]{
+			func(context.Context, any) (any, error) { counts[0]++; return struct{}{}, nil },
+			func(context.Context, any) (any, error) { counts[1]++; return struct{}{}, nil },
+			func(context.Context, any) (any, error) { counts[2]++; return struct{}{}, nil },
 		}
 	)
 
@@ -55,12 +55,12 @@ func TestRoundRobinNoEndpoints(t *testing.T) {
 }
 
 func TestRoundRobinNoRace(t *testing.T) {
-	balancer := NewRoundRobin(sd.FixedEndpointer([]endpoint.Endpoint{
-		endpoint.Nop,
-		endpoint.Nop,
-		endpoint.Nop,
-		endpoint.Nop,
-		endpoint.Nop,
+	balancer := NewRoundRobin(sd.FixedEndpointer([]endpoint.Endpoint[any, any]{
+		endpoint.Nop[any, any],
+		endpoint.Nop[any, any],
+		endpoint.Nop[any, any],
+		endpoint.Nop[any, any],
+		endpoint.Nop[any, any],
 	}))
 
 	var (

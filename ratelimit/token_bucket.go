@@ -22,8 +22,8 @@ type Allower interface {
 // limiter. Requests that would exceed the
 // maximum request rate are simply rejected with an error.
 func NewErroringLimiter(limit Allower) endpoint.Middleware {
-	return func(next endpoint.Endpoint) endpoint.Endpoint {
-		return func(ctx context.Context, request interface{}) (interface{}, error) {
+	return func(next endpoint.Endpoint[any, any]) endpoint.Endpoint[any, any] {
+		return func(ctx context.Context, request any) (any, error) {
 			if !limit.Allow() {
 				return nil, ErrLimited
 			}
@@ -43,8 +43,8 @@ type Waiter interface {
 // request throttler. Requests that would
 // exceed the maximum request rate are delayed via the Waiter function
 func NewDelayingLimiter(limit Waiter) endpoint.Middleware {
-	return func(next endpoint.Endpoint) endpoint.Endpoint {
-		return func(ctx context.Context, request interface{}) (interface{}, error) {
+	return func(next endpoint.Endpoint[any, any]) endpoint.Endpoint[any, any] {
+		return func(ctx context.Context, request any) (any, error) {
 			if err := limit.Wait(ctx); err != nil {
 				return nil, err
 			}

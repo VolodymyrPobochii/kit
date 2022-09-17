@@ -12,10 +12,12 @@ import (
 
 func TestEndpointCache(t *testing.T) {
 	var (
-		ca    = make(closer)
-		cb    = make(closer)
-		c     = map[string]io.Closer{"a": ca, "b": cb}
-		f     = func(instance string) (endpoint.Endpoint, io.Closer, error) { return endpoint.Nop, c[instance], nil }
+		ca = make(closer)
+		cb = make(closer)
+		c  = map[string]io.Closer{"a": ca, "b": cb}
+		f  = func(instance string) (endpoint.Endpoint[any, any], io.Closer, error) {
+			return endpoint.Nop[any, any], c[instance], nil
+		}
 		cache = newEndpointCache(f, log.NewNopLogger(), endpointerOptions{})
 	)
 
@@ -81,10 +83,12 @@ func TestEndpointCache(t *testing.T) {
 
 func TestEndpointCacheErrorAndTimeout(t *testing.T) {
 	var (
-		ca      = make(closer)
-		cb      = make(closer)
-		c       = map[string]io.Closer{"a": ca, "b": cb}
-		f       = func(instance string) (endpoint.Endpoint, io.Closer, error) { return endpoint.Nop, c[instance], nil }
+		ca = make(closer)
+		cb = make(closer)
+		c  = map[string]io.Closer{"a": ca, "b": cb}
+		f  = func(instance string) (endpoint.Endpoint[any, any], io.Closer, error) {
+			return endpoint.Nop[any, any], c[instance], nil
+		}
 		timeOut = 100 * time.Millisecond
 		cache   = newEndpointCache(f, log.NewNopLogger(), endpointerOptions{
 			invalidateOnError: true,
@@ -141,7 +145,7 @@ func TestEndpointCacheErrorAndTimeout(t *testing.T) {
 }
 
 func TestBadFactory(t *testing.T) {
-	cache := newEndpointCache(func(string) (endpoint.Endpoint, io.Closer, error) {
+	cache := newEndpointCache(func(string) (endpoint.Endpoint[any, any], io.Closer, error) {
 		return nil, nil, errors.New("bad factory")
 	}, log.NewNopLogger(), endpointerOptions{})
 

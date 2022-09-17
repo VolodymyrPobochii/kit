@@ -174,7 +174,7 @@ func TestMultipleSubscriberBefore(t *testing.T) {
 		done     = make(chan struct{})
 	)
 	handler := natstransport.NewSubscriber(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *nats.Msg) (interface{}, error) {
 			return struct{}{}, nil
 		},
@@ -236,7 +236,7 @@ func TestMultipleSubscriberAfter(t *testing.T) {
 		done     = make(chan struct{})
 	)
 	handler := natstransport.NewSubscriber(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *nats.Msg) (interface{}, error) {
 			return struct{}{}, nil
 		},
@@ -294,7 +294,7 @@ func TestSubscriberFinalizerFunc(t *testing.T) {
 		done     = make(chan struct{})
 	)
 	handler := natstransport.NewSubscriber(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *nats.Msg) (interface{}, error) {
 			return struct{}{}, nil
 		},

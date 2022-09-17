@@ -39,7 +39,7 @@ type failedResponse struct {
 
 func (r failedResponse) Failed() error { return r.err }
 
-func passEndpoint(_ context.Context, req interface{}) (interface{}, error) {
+func passEndpoint(_ context.Context, req any) (any, error) {
 	if err, _ := req.(error); err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func TestTraceEndpoint(t *testing.T) {
 	mw := opencensus.TraceEndpoint(
 		span1, opencensus.WithEndpointAttributes(span1Attrs...),
 	)
-	mw(endpoint.Nop)(ctx, nil)
+	mw(endpoint.Nop[any, any])(ctx, nil)
 
 	// span 2
 	opts := opencensus.EndpointOptions{}
@@ -95,7 +95,7 @@ func TestTraceEndpoint(t *testing.T) {
 			return span6Attrs
 		}),
 	)
-	mw(endpoint.Nop)(ctx, nil)
+	mw(endpoint.Nop[any, any])(ctx, nil)
 
 	// check span count
 	spans := e.Flush()

@@ -19,8 +19,8 @@ func NewService() Service {
 	return service{}
 }
 
-func makeTestEndpoint(svc Service) endpoint.Endpoint {
-	return func(ctx context.Context, request interface{}) (interface{}, error) {
+func makeTestEndpoint(svc Service) endpoint.Endpoint[any, any] {
+	return func(ctx context.Context, request any) (any, error) {
 		req := request.(TestRequest)
 		newCtx, v, err := svc.Test(ctx, req.A, req.B)
 		return &TestResponse{

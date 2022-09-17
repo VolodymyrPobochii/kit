@@ -20,7 +20,7 @@ type roundRobin struct {
 	c uint64
 }
 
-func (rr *roundRobin) Endpoint() (endpoint.Endpoint, error) {
+func (rr *roundRobin) Endpoint() (endpoint.Endpoint[any, any], error) {
 	endpoints, err := rr.s.Endpoints()
 	if err != nil {
 		return nil, err

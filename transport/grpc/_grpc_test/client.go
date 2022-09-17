@@ -11,7 +11,7 @@ import (
 )
 
 type clientBinding struct {
-	test endpoint.Endpoint
+	test endpoint.Endpoint[any, any]
 }
 
 func (c *clientBinding) Test(ctx context.Context, a string, b int64) (context.Context, string, error) {

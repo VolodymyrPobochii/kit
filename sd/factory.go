@@ -14,4 +14,4 @@ import (
 //
 // Users are expected to provide their own factory functions that assume
 // specific transports, or can deduce transports by parsing the instance string.
-type Factory func(instance string) (endpoint.Endpoint, io.Closer, error)
+type Factory func(instance string) (endpoint.Endpoint[any, any], io.Closer, error)

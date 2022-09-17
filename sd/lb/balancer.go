@@ -8,7 +8,7 @@ import (
 
 // Balancer yields endpoints according to some heuristic.
 type Balancer interface {
-	Endpoint() (endpoint.Endpoint, error)
+	Endpoint() (endpoint.Endpoint[any, any], error)
 }
 
 // ErrNoEndpoints is returned when no qualifying endpoints are available.

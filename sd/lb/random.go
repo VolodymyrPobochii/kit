@@ -20,7 +20,7 @@ type random struct {
 	r *rand.Rand
 }
 
-func (r *random) Endpoint() (endpoint.Endpoint, error) {
+func (r *random) Endpoint() (endpoint.Endpoint[any, any], error) {
 	endpoints, err := r.s.Endpoints()
 	if err != nil {
 		return nil, err

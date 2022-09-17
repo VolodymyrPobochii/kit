@@ -19,14 +19,14 @@ type endpointCache struct {
 	factory            Factory
 	cache              map[string]endpointCloser
 	err                error
-	endpoints          []endpoint.Endpoint
+	endpoints          []endpoint.Endpoint[any, any]
 	logger             log.Logger
 	invalidateDeadline time.Time
 	timeNow            func() time.Time
 }
 
 type endpointCloser struct {
-	endpoint.Endpoint
+	endpoint.Endpoint[any, any]
 	io.Closer
 }
 
@@ -101,7 +101,7 @@ func (c *endpointCache) updateCache(instances []string) {
 	}
 
 	// Populate the slice of endpoints.
-	endpoints := make([]endpoint.Endpoint, 0, len(cache))
+	endpoints := make([]endpoint.Endpoint[any, any], 0, len(cache))
 	for _, instance := range instances {
 		// A bad factory may mean an instance is not present.
 		if _, ok := cache[instance]; !ok {
@@ -117,7 +117,7 @@ func (c *endpointCache) updateCache(instances []string) {
 
 // Endpoints yields the current set of (presumably identical) endpoints, ordered
 // lexicographically by the corresponding instance string.
-func (c *endpointCache) Endpoints() ([]endpoint.Endpoint, error) {
+func (c *endpointCache) Endpoints() ([]endpoint.Endpoint[any, any], error) {
 	// in the steady state we're going to have many goroutines calling Endpoints()
 	// concurrently, so to minimize contention we use a shared R-lock.
 	c.mtx.RLock()

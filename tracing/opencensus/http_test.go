@@ -115,7 +115,7 @@ func TestHTTPServerTrace(t *testing.T) {
 		var client http.Client
 
 		handler := kithttp.NewServer(
-			endpoint.Nop,
+			endpoint.Nop[any, any],
 			func(context.Context, *http.Request) (interface{}, error) { return nil, nil },
 			func(context.Context, http.ResponseWriter, interface{}) error { return errors.New("dummy") },
 			ockit.HTTPServerTrace(

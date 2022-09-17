@@ -81,7 +81,7 @@ func TestGRPCServerTrace(t *testing.T) {
 	serverTracer := kitzipkin.GRPCServerTrace(tr)
 
 	server := grpctransport.NewServer(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, interface{}) (interface{}, error) { return nil, nil },
 		func(context.Context, interface{}) (interface{}, error) { return nil, nil },
 		serverTracer,

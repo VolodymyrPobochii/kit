@@ -17,7 +17,7 @@ func TestTraceEndpoint(t *testing.T) {
 	rec := recorder.NewReporter()
 	tr, _ := zipkin.NewTracer(rec)
 	mw := zipkinkit.TraceEndpoint(tr, spanName)
-	mw(endpoint.Nop)(context.Background(), nil)
+	mw(endpoint.Nop[any, any])(context.Background(), nil)
 
 	spans := rec.Flush()
 

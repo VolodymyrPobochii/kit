@@ -12,7 +12,7 @@ import (
 
 // Server wraps an endpoint and implements http.Handler.
 type Server struct {
-	e            endpoint.Endpoint
+	e            endpoint.Endpoint[any, any]
 	dec          DecodeRequestFunc
 	enc          EncodeResponseFunc
 	before       []RequestFunc
@@ -25,7 +25,7 @@ type Server struct {
 // NewServer constructs a new server, which implements http.Handler and wraps
 // the provided endpoint.
 func NewServer(
-	e endpoint.Endpoint,
+	e endpoint.Endpoint[any, any],
 	dec DecodeRequestFunc,
 	enc EncodeResponseFunc,
 	options ...ServerOption,

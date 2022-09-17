@@ -98,7 +98,7 @@ func TestMultipleServerBefore(t *testing.T) {
 		done         = make(chan struct{})
 	)
 	handler := httptransport.NewServer(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *http.Request) (interface{}, error) {
 			return struct{}{}, nil
 		},
@@ -143,7 +143,7 @@ func TestMultipleServerAfter(t *testing.T) {
 		done         = make(chan struct{})
 	)
 	handler := httptransport.NewServer(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *http.Request) (interface{}, error) {
 			return struct{}{}, nil
 		},
@@ -188,7 +188,7 @@ func TestServerFinalizer(t *testing.T) {
 		done         = make(chan struct{})
 	)
 	handler := httptransport.NewServer(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *http.Request) (interface{}, error) {
 			return struct{}{}, nil
 		},

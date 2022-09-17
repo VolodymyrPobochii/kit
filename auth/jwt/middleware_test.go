@@ -38,7 +38,7 @@ var (
 	malformedKey      = "malformed.jwt.token"
 )
 
-func signingValidator(t *testing.T, signer endpoint.Endpoint, expectedKey string) {
+func signingValidator(t *testing.T, signer endpoint.Endpoint[any, any], expectedKey string) {
 	ctx, err := signer(context.Background(), struct{}{})
 	if err != nil {
 		t.Fatalf("Signer returned error: %s", err)
@@ -204,7 +204,7 @@ func TestJWTParser(t *testing.T) {
 func TestIssue562(t *testing.T) {
 	var (
 		kf  = func(token *jwt.Token) (interface{}, error) { return []byte("secret"), nil }
-		e   = NewParser(kf, jwt.SigningMethodHS256, MapClaimsFactory)(endpoint.Nop)
+		e   = NewParser(kf, jwt.SigningMethodHS256, MapClaimsFactory)(endpoint.Nop[any, any])
 		key = JWTContextKey
 		val = "eyJhbGciOiJIUzI1NiIsImtpZCI6ImtpZCIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ28ta2l0In0.14M2VmYyApdSlV_LZ88ajjwuaLeIFplB8JpyNy0A19E"
 		ctx = context.WithValue(context.Background(), key, val)

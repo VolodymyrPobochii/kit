@@ -20,7 +20,7 @@ type Handler interface {
 
 // Server wraps an endpoint and implements grpc.Handler.
 type Server struct {
-	e            endpoint.Endpoint
+	e            endpoint.Endpoint[any, any]
 	dec          DecodeRequestFunc
 	enc          EncodeResponseFunc
 	before       []ServerRequestFunc
@@ -35,7 +35,7 @@ type Server struct {
 // definitions to individual handlers. Request and response objects are from the
 // caller business domain, not gRPC request and reply types.
 func NewServer(
-	e endpoint.Endpoint,
+	e endpoint.Endpoint[any, any],
 	dec DecodeRequestFunc,
 	enc EncodeResponseFunc,
 	options ...ServerOption,

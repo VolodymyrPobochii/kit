@@ -12,14 +12,14 @@ import (
 // to the service discovery system, or within the system itself; an Endpointer
 // may yield no endpoints without error.
 type Endpointer interface {
-	Endpoints() ([]endpoint.Endpoint, error)
+	Endpoints() ([]endpoint.Endpoint[any, any], error)
 }
 
 // FixedEndpointer yields a fixed set of endpoints.
-type FixedEndpointer []endpoint.Endpoint
+type FixedEndpointer []endpoint.Endpoint[any, any]
 
 // Endpoints implements Endpointer.
-func (s FixedEndpointer) Endpoints() ([]endpoint.Endpoint, error) { return s, nil }
+func (s FixedEndpointer) Endpoints() ([]endpoint.Endpoint[any, any], error) { return s, nil }
 
 // NewEndpointer creates an Endpointer that subscribes to updates from Instancer src
 // and uses factory f to create Endpoints. If src notifies of an error, the Endpointer
@@ -85,6 +85,6 @@ func (de *DefaultEndpointer) Close() {
 }
 
 // Endpoints implements Endpointer.
-func (de *DefaultEndpointer) Endpoints() ([]endpoint.Endpoint, error) {
+func (de *DefaultEndpointer) Endpoints() ([]endpoint.Endpoint[any, any], error) {
 	return de.cache.Endpoints()
 }

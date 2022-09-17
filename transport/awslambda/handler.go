@@ -10,7 +10,7 @@ import (
 
 // Handler wraps an endpoint.
 type Handler struct {
-	e            endpoint.Endpoint
+	e            endpoint.Endpoint[any, any]
 	dec          DecodeRequestFunc
 	enc          EncodeResponseFunc
 	before       []HandlerRequestFunc
@@ -23,7 +23,7 @@ type Handler struct {
 // NewHandler constructs a new handler, which implements
 // the AWS lambda.Handler interface.
 func NewHandler(
-	e endpoint.Endpoint,
+	e endpoint.Endpoint[any, any],
 	dec DecodeRequestFunc,
 	enc EncodeResponseFunc,
 	options ...HandlerOption,

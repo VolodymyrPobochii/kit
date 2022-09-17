@@ -12,7 +12,7 @@ import (
 
 // EndpointCodec defines a server Endpoint and its associated codecs
 type EndpointCodec struct {
-	Endpoint endpoint.Endpoint
+	Endpoint endpoint.Endpoint[any, any]
 	Decode   DecodeRequestFunc
 	Encode   EncodeResponseFunc
 }

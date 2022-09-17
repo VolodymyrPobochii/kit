@@ -172,7 +172,7 @@ func TestHTTPServerTrace(t *testing.T) {
 	tr, _ := zipkin.NewTracer(rec, zipkin.WithSharedSpans(true))
 
 	handler := kithttp.NewServer(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *http.Request) (interface{}, error) { return nil, nil },
 		func(context.Context, http.ResponseWriter, interface{}) error { return errors.New("dummy") },
 		zipkinkit.HTTPServerTrace(tr),
@@ -230,7 +230,7 @@ func TestHTTPServerTraceIsRequestBasedSampled(t *testing.T) {
 	tr, _ := zipkin.NewTracer(rec)
 
 	handler := kithttp.NewServer(
-		endpoint.Nop,
+		endpoint.Nop[any, any],
 		func(context.Context, *http.Request) (interface{}, error) { return nil, nil },
 		func(context.Context, http.ResponseWriter, interface{}) error { return nil },
 		zipkinkit.HTTPServerTrace(tr, zipkinkit.RequestSampler(func(r *http.Request) bool {

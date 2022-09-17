@@ -68,7 +68,7 @@ func AuthMiddleware(requiredUser, requiredPassword, realm string) endpoint.Middl
 	requiredUserBytes := toHashSlice([]byte(requiredUser))
 	requiredPasswordBytes := toHashSlice([]byte(requiredPassword))
 
-	return func(next endpoint.Endpoint) endpoint.Endpoint {
+	return func(next endpoint.Endpoint[any, any]) endpoint.Endpoint[any, any] {
 		return func(ctx context.Context, request interface{}) (interface{}, error) {
 			auth, ok := ctx.Value(httptransport.ContextKeyRequestAuthorization).(string)
 			if !ok {
